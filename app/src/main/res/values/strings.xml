@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">pse-stock-calculator</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="label_buy_price">Buy Price</string>
+    <string name="label_sell_price">Sell Price</string>
+    <string name="label_number_of_share">No. of Shares</string>
+
+    <string name="label_buy">Buy</string>
+    <string name="label_sell">Sell</string>
+    <string name="label_profit_bar">Toggle Profit %</string>
+
+    <string name="label_total_fee">Total Fee</string>
+    <string name="label_total_amount">Total Amount</string>
+    <string name="label_total_profit">Total Profit</string>
+
+    <string name="value_int_zero"></string>
+    <string name="value_double_zero"></string>
+
+
+    <string name="seekbar_min">-50%</string>
+    <string name="seekbar_max">150%</string>
+</resources>
