@@ -1,7 +1,6 @@
 package io.github.kenblizzard.pse_stock_calculator
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,21 +18,26 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     fun Double.format(digits: Int) = java.lang.String.format("%,.${digits}f", this)
 
+
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         if (p0 != null) {
-            Snackbar.make(p0.rootView, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+
+            var buyPrice: Double
+            if(editBuyPrice.text.toString().isNullOrBlank() ) {
+                buyPrice = 0.00
+            }
+            else {
+                buyPrice = editBuyPrice.text.toString().toDouble()
+            }
+            editSellPrice.setText("" + ((buyPrice * (p0.progress - 150 + 100)/100) + buyPrice).format(4))
+        };
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) {
-
     }
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
-        if (p0 != null) {
-            editSellPrice.setText("" + p0.progress)
-        };
+
     }
 
 
@@ -44,92 +48,99 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
         seekBarGainPercentage!!.setOnSeekBarChangeListener(this);
 
+
         editBuyPrice.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                var transactionFeeComponents = TransactionFeeComponents(0.0025, 0.12,
-                        0.00005, 0.0001, 0.006)
-
-                var stock = Stock();
-
-                stock.numberOfShares = editNumberOfShares.text.toString().toIntOrNull();
-                stock.buyPrice = editBuyPrice.text.toString().toDoubleOrNull();
-                stock.sellPrice = editSellPrice.text.toString().toDoubleOrNull();
-
-
-                var totalFee: Double;
-                var totalAmount: Double;
-
-
-                transactionFeeComponents = StockPriceCalculator.calculateTransactionFee(stock, transactionFeeComponents, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
-                totalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, transactionFeeComponents, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
-
-
-                totalFee = transactionFeeComponents.totalFee;
-
-                textBuyTotalFee.text = "" + totalFee.format(2);
-                textBuyTotalAmount.text = "" + totalAmount.format(2)
-
+                calculateResultOnValueChanged()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
         })
 
 
-        editSellPrice.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+        editSellPrice.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                calculateResultOnValueChanged()
+            }
 
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                var transactionFeeComponents = TransactionFeeComponents(0.0025, 0.12,
-                        0.00005, 0.0001, 0.006)
+            }
 
-                var stock = Stock();
+        })
 
-                stock.numberOfShares = editNumberOfShares.text.toString().toIntOrNull();
-                stock.buyPrice = editBuyPrice.text.toString().toDoubleOrNull();
-                stock.sellPrice = editSellPrice.text.toString().toDoubleOrNull();
+        editNumberOfShares.addTextChangedListener(object : TextWatcher {
 
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                calculateResultOnValueChanged()
+            }
 
-                var totalFee: Double;
-                var totalAmount: Double;
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
 
-
-                transactionFeeComponents = StockPriceCalculator.calculateTransactionFee(stock, transactionFeeComponents, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
-                totalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, transactionFeeComponents, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
-
-
-                totalFee = transactionFeeComponents.totalFee;
-
-                textSellTotalFee.text = "" + totalFee.format(2);
-                textSellTotalAmount.text = "" + totalAmount.format(2)
-
-                var totalProfit : Double;
-
-                totalProfit = totalAmount - textBuyTotalAmount.text.toString().replace(
-                        ",",
-                        "",
-                        true
-                ).toDouble();
-
-                textSellTotalProft.text = "" + totalProfit.format(2);
-
+            override fun afterTextChanged(p0: Editable?) {
             }
 
         })
 
 
+    }
+
+
+    fun calculateResultOnValueChanged() {
+        var buyTransactionFee: TransactionFeeComponents
+        var sellTransactionFee: TransactionFeeComponents
+
+        var stock = Stock();
+
+        stock.numberOfShares = editNumberOfShares.text.toString().toIntOrNull();
+        stock.buyPrice = editBuyPrice.text.toString().toDoubleOrNull();
+        stock.sellPrice = editSellPrice.text.toString().toDoubleOrNull();
+
+
+        if (stock.numberOfShares == null || stock.numberOfShares == 0) {
+            return
+        }
+
+
+        var buyTotalFee: Double;
+        var buyTotalAmount: Double;
+
+        buyTransactionFee = StockPriceCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+        buyTotalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+        buyTotalFee = buyTransactionFee.totalFee;
+
+        textBuyTotalFee.text = "" + buyTotalFee.format(2);
+        textBuyTotalAmount.text = "" + buyTotalAmount.format(2)
+
+
+        var sellTotalFee: Double;
+        var sellTotalAmount: Double;
+
+
+        sellTransactionFee = StockPriceCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+        sellTotalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+        sellTotalFee = sellTransactionFee.totalFee;
+
+        textSellTotalFee.text = "" + sellTotalFee.format(2);
+        textSellTotalAmount.text = "" + sellTotalAmount.format(2)
+
+        var totalProfit: Double;
+        var totalProfitPercentage: Double;
+
+        totalProfit = sellTotalAmount - (buyTotalAmount - buyTotalFee)
+        totalProfitPercentage = (sellTotalAmount / (buyTotalAmount - buyTotalFee)) * 100 - 100
+
+
+        textSellTotalProft.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -160,5 +171,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         init {
             System.loadLibrary("native-lib")
         }
+
+        var TRANSACTION_FEE_BASE_VALUES: TransactionFeeComponents = TransactionFeeComponents(0.0025, 0.12,
+                0.00005, 0.0001, 0.006)
     }
 }

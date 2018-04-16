@@ -20,7 +20,7 @@ public class Stock {
     }
 
     public void setNumberOfShares(Integer numberOfShare) {
-        this.numberOfShare = numberOfShare;
+        this.numberOfShare = numberOfShare == null ? 0 : numberOfShare;
     }
 
     public Double getBuyPrice() {
