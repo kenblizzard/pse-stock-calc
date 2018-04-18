@@ -2,5 +2,10 @@
 <resources>
     <color name="colorPrimary">#FFB997</color>
     <color name="colorPrimaryDark">#74546A</color>
-    <color name="colorAccent">#F67E7D</color>
+    <color name="colorBackground">#eff0f1</color>
+    <color name="colorAccent">#74546A</color>
+
+
+    <color name="colorBuy">#5de280</color>
+    <color name="colorSell">#e25d5d</color>
 </resources>

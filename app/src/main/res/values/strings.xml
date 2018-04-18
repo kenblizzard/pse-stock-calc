@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pse-stock-calculator</string>
+    <string name="app_name">PSE Stocks Calculator</string>
     <string name="action_settings">Settings</string>
 
 
@@ -9,7 +9,7 @@
 
     <string name="label_buy">Buy</string>
     <string name="label_sell">Sell</string>
-    <string name="label_profit_bar">Toggle Profit %</string>
+    <string name="label_profit_bar">Adjust Profit %</string>
 
     <string name="label_total_fee">Total Fee</string>
     <string name="label_total_amount">Total Amount</string>

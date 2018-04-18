@@ -1,15 +1,22 @@
 package io.github.kenblizzard.pse_stock_calculator
 
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SeekBar
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents
-import io.github.kenblizzard.pse_stock_calculator.service.StockPriceCalculator
+import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
 import io.github.kenblizzard.pse_stock_calculator.util.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -17,19 +24,44 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     fun Double.format(digits: Int) = java.lang.String.format("%,.${digits}f", this)
+    lateinit var mAdView : AdView
 
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         if (p0 != null) {
 
             var buyPrice: Double
-            if(editBuyPrice.text.toString().isNullOrBlank() ) {
+            if (editBuyPrice.text.toString().isNullOrBlank()) {
                 buyPrice = 0.00
-            }
-            else {
+            } else {
                 buyPrice = editBuyPrice.text.toString().toDouble()
             }
-            editSellPrice.setText("" + ((buyPrice * (p0.progress - 150 + 100)/100) + buyPrice).format(4))
+
+            var fluctuationDecimalPlace = 0
+
+
+            if (buyPrice < 0.01) {
+                fluctuationDecimalPlace = 4
+            } else if (buyPrice < 0.5) {
+                fluctuationDecimalPlace = 3
+            } else if (buyPrice < 100) {
+                fluctuationDecimalPlace = 2
+            } else if (buyPrice < 1000) {
+                fluctuationDecimalPlace = 1
+            }
+
+
+            var profitPercentage: Double = (((p0.progress - 150 + 100)).toDouble())
+
+            if(profitPercentage > 0) {
+                seekBarGainPercentage.progressDrawable.setColorFilter(ContextCompat.getColor(this,R.color.colorBuy), PorterDuff.Mode.MULTIPLY)
+            }
+            else {
+                seekBarGainPercentage.progressDrawable.setColorFilter(ContextCompat.getColor(this,R.color.colorSell), PorterDuff.Mode.MULTIPLY)
+            }
+
+            editSellPrice.setText("" + ((buyPrice * profitPercentage / 100) + buyPrice).format(fluctuationDecimalPlace).replace(",", ""))
         };
     }
 
@@ -45,6 +77,11 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+       /* MobileAds.initialize(this, "ca-app-pub-1200631640695401~4382253594")
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)*/
 
         seekBarGainPercentage!!.setOnSeekBarChangeListener(this);
 
@@ -114,8 +151,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         var buyTotalFee: Double;
         var buyTotalAmount: Double;
 
-        buyTransactionFee = StockPriceCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
-        buyTotalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+        buyTransactionFee = StocksCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+        buyTotalAmount = StocksCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
         buyTotalFee = buyTransactionFee.totalFee;
 
         textBuyTotalFee.text = "" + buyTotalFee.format(2);
@@ -126,8 +163,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         var sellTotalAmount: Double;
 
 
-        sellTransactionFee = StockPriceCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
-        sellTotalAmount = StockPriceCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+        sellTransactionFee = StocksCalculator.calculateTransactionFee(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+        sellTotalAmount = StocksCalculator.calculateTotalSharesPrice(stock, TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
         sellTotalFee = sellTransactionFee.totalFee;
 
         textSellTotalFee.text = "" + sellTotalFee.format(2);
