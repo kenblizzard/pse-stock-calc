@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <item android:title="Calculators">
+        <menu>
+            <item
+                android:id="@+id/nav_stocks_calc"
+                android:icon="@drawable/ic_stocks_price_calc_24dp"
+                android:title="Stocks Price \u0026 Profit" />
+            <item
+                android:id="@+id/nav_budget_stocks_calc"
+                android:icon="@drawable/ic_budget_stocks_calc_24dp"
+                android:title="Budget/Shares Shopping Calculator" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context=".StockPriceCalculatorFragment">
 
     <LinearLayout
         style="@style/LayoutPadding"
@@ -45,8 +42,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
-                        android:inputType="number"
-                        android:text="@string/value_int_zero" />
+                        android:hint="@string/value_int_zero"
+                        android:inputType="number" />
 
 
                 </LinearLayout>
@@ -69,8 +66,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
-                        android:inputType="numberDecimal"
-                        android:text="@string/value_double_zero" />
+                        android:hint="@string/value_double_zero"
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
@@ -93,8 +90,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
-                        android:inputType="numberDecimal"
-                        android:text="@string/value_double_zero" />
+                        android:hint="@string/value_double_zero"
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
@@ -122,9 +119,8 @@
 
                 <SeekBar
                     android:id="@+id/seekBarGainPercentage"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="8"
                     android:backgroundTint="@color/colorSell"
                     android:max="200"
                     android:progress="50"
@@ -148,14 +144,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/label_profit_bar" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/seekbar_max"
-                    android:textAlignment="viewEnd" />
+                    android:gravity="right"
+                    android:text="@string/seekbar_max" />
             </LinearLayout>
         </LinearLayout>
 
@@ -185,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="@string/label_buy"
-                        android:textAlignment="center" />
+                        android:gravity="center" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -205,7 +202,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:text="@string/value_double_zero"/>
 
                     </LinearLayout>
 
@@ -227,7 +225,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:text="@string/value_double_zero"/>
 
                     </LinearLayout>
 
@@ -245,7 +244,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/label_sell"
-                        android:textAlignment="center" />
+                        android:gravity="center" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -265,7 +264,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:text="@string/value_double_zero"/>
 
                     </LinearLayout>
 
@@ -287,7 +287,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:text="@string/value_double_zero"/>
 
 
                     </LinearLayout>
@@ -311,7 +312,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:text="@string/value_double_zero"/>
 
 
                     </LinearLayout>
@@ -326,4 +328,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

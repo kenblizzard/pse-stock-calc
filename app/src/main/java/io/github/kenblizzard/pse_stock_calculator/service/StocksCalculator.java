@@ -9,6 +9,9 @@ import io.github.kenblizzard.pse_stock_calculator.util.Constants;
 
 public class StocksCalculator {
 
+    public static TransactionFeeComponents TRANSACTION_FEE_BASE_VALUES = new TransactionFeeComponents(0.0025, 0.12,
+            0.00005, 0.0001, 0.006);
+
     public static TransactionFeeComponents calculateTransactionFee(Stock stock,
                                                                    TransactionFeeComponents transactionFeeComponents,
                                                                    Constants.TRANSACTION_TYPE transaction_type) {
@@ -101,6 +104,45 @@ public class StocksCalculator {
             return 2.0000;
         } else {
             return 5.0000;
+        }
+    }
+
+    public static int roundNumberOfSharesByBoardLot(double price, int numberOfShares) {
+        return numberOfShares - (numberOfShares % getBoardLot(price));
+    }
+
+
+    public static int getBoardLot(double price) {
+        if (price >= 0.0001 && price <= 0.0099) {
+            return 	1000000;
+        } else if (price >= 0.0100 && price <= 0.0490) {
+            return 	100000;
+        } else if (price >= 0.0500 && price <= 0.2490) {
+            return 10000;
+        } else if (price >= 0.2500 && price <= 0.4950) {
+            return 10000;
+        } else if (price >= 0.5000 && price <= 4.9900) {
+            return 1000;
+        } else if (price >= 5.0000 && price <= 9.99) {
+            return 100;
+        } else if (price >= 10.0000 && price <= 19.9800) {
+            return 100;
+        } else if (price >= 20.0000 && price <= 49.9500) {
+            return 100;
+        } else if (price >= 50.0000 && price <= 99.9500) {
+            return 10;
+        } else if (price >= 100.0000 && price <= 199.9000) {
+            return 10;
+        } else if (price >= 200.0000 && price <= 499.8000) {
+            return 10;
+        } else if (price >= 500.0000 && price <= 999.5000) {
+            return 10;
+        } else if (price >= 1000.0000 && price <= 1999.0000) {
+            return 5;
+        } else if (price >= 2000.0000 && price <= 4998.0000) {
+            return 5;
+        } else {
+            return 5;
         }
     }
 }
