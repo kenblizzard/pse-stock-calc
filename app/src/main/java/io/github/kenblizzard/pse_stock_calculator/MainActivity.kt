@@ -19,6 +19,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.SeekBar
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
@@ -27,10 +28,13 @@ import kotlinx.android.synthetic.main.activity_nav_main.*
 import kotlinx.android.synthetic.main.app_bar_nav_main.*
 import kotlinx.android.synthetic.main.content_nav_main.*
 
-class NavMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     lateinit var mAdView: AdView
+
+    var budgetStocksCalculatorFragment = BudgetStocksCalculatorFragment()
+    var stockPriceCalculatorFragment   = StockPriceCalculatorFragment()
 
 
     fun displayFragmentView(itemId : Int) {
@@ -40,24 +44,23 @@ class NavMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
         var title : String = "";
 
+        var ft : FragmentTransaction = supportFragmentManager.beginTransaction()
 
         when(itemId) {
             R.id.nav_stocks_calc -> {
-                fragment = StockPriceCalculatorFragment()
+
                 title = "Stocks Price Calculator"
+                ft.replace(R.id.content_frame, stockPriceCalculatorFragment)
             }
 
             R.id.nav_budget_stocks_calc -> {
-                fragment = BudgetStocksCalculatorFragment()
+
                 title = "Stocks Budget Calculator"
+                ft.replace(R.id.content_frame, budgetStocksCalculatorFragment)
             }
         }
 
-        if(fragment != null) {
-            var ft : FragmentTransaction = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.content_frame, fragment)
-            ft.commit()
-        }
+        ft.commit()
 
         if(supportActionBar != null) {
             getSupportActionBar()?.title = title
@@ -82,6 +85,8 @@ class NavMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        MobileAds.initialize(this, "ca-app-pub-1200631640695401~4382253594");
 
 
 

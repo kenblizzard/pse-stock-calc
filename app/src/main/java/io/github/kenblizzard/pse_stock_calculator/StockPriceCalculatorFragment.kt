@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
@@ -39,6 +42,9 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var SAVE_KEY_NUM_SHARES = "SAVE_KEY_NUM_SHARES"
+    private var SAVE_KEY_BUY_PRICE = "SAVE_KEY_BUY_PRICE"
+    private var SAVE_KEY_SELL_PRICE = "SAVE_KEY_SELL_PRICE"
 
 
     lateinit var textWatcher: TextWatcher
@@ -154,7 +160,7 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        var rootView : View = inflater.inflate(R.layout.fragment_stock_price_calculator, container, false)
+        var rootView: View = inflater.inflate(R.layout.fragment_stock_price_calculator, container, false)
 
         rootView.seekBarGainPercentage.setOnSeekBarChangeListener(this);
 
@@ -177,8 +183,29 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
         rootView.editSellPrice.addTextChangedListener(textWatcher)
 
         rootView.editNumberOfShares.addTextChangedListener(textWatcher)
+
+
+        MobileAds.initialize(this.context, "ca-app-pub-1200631640695401~4382253594");
+
+
+        val adRequest = AdRequest.Builder().build()
+        rootView.adView.loadAd(adRequest)
+
+
+        rootView.adView.setAdListener(object : AdListener() {
+
+            override fun onAdLoaded() {
+                rootView.adView.setVisibility(View.VISIBLE)
+            }
+
+            override fun onAdFailedToLoad(error: Int) {
+                rootView.adView.setVisibility(View.GONE)
+            }
+
+        })
         return rootView
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
 //    fun onButtonPressed(uri: Uri) {

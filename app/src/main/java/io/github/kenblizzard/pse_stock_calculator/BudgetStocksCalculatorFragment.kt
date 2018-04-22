@@ -49,7 +49,7 @@ class BudgetStocksCalculatorFragment : Fragment() {
         stock.buyPrice = editBudgetStockPrice.text.toString().toDoubleOrNull()
         stock.sellPrice = 0.0;
 
-        if (stock.buyPrice == null || buyingPower == null) {
+        if (stock.buyPrice == null || buyingPower == null || stock.buyPrice <= 0 || buyingPower <= 0) {
             return;
         }
 
@@ -78,8 +78,11 @@ class BudgetStocksCalculatorFragment : Fragment() {
             totalAmount = (stock.buyPrice * numSharesBasedOnBoardLot) + transactionFeeComponents.totalFee
         }
 
+        var avePricePerShare = totalAmount/numSharesBasedOnBoardLot
+
         textBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot)
         textBoardLot.setText("" + numBoardLot)
+        textBudgetAvePricePerShare.setText("" + avePricePerShare.format(4))
         textBudgetTotalFee.setText("" + transactionFeeComponents.totalFee.format(2))
         textBudgetTotalAmount.setText("" + totalAmount.format(2))
         textBudgetRemainingBuyingPower.setText("" + (buyingPower - totalAmount).format(2))

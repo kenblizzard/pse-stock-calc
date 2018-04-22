@@ -18,6 +18,7 @@
     <string name="label_budget_buying_power">Buying Power</string>
     <string name="label_budget_current_price">Current Share price</string>
     <string name="label_budget_remaining_buying_power">Remaining Buying Power</string>
+    <string name="label_budget_ave_price_per_share">Average Price per Share</string>
 
     <string name="label_details">Details</string>
     <string name="label_board_lot">Board Lot</string>
