@@ -81,7 +81,6 @@ class BudgetStocksCalculatorFragment : Fragment() {
 
         var avePricePerShare = totalAmount/numSharesBasedOnBoardLot
 
-        textBoardLot.setText("" + numBoardLot)
         textBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot.toDouble().format(0))
         textBoardLot.setText("" + numBoardLot.toDouble().format(0))
         textBudgetAvePricePerShare.setText("" + avePricePerShare.format(4))
