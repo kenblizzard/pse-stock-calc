@@ -3,7 +3,7 @@ package io.github.kenblizzard.pse_stock_calculator.model;
 public class Stock {
 
     private String name;
-    private Integer numberOfShare;
+    private Long numberOfShare;
     private Double buyPrice;
     private Double sellPrice;
 
@@ -15,11 +15,11 @@ public class Stock {
         this.name = name;
     }
 
-    public Integer getNumberOfShares() {
+    public Long getNumberOfShares() {
         return numberOfShare;
     }
 
-    public void setNumberOfShares(Integer numberOfShare) {
+    public void setNumberOfShares(Long numberOfShare) {
         this.numberOfShare = numberOfShare == null ? 0 : numberOfShare;
     }
 

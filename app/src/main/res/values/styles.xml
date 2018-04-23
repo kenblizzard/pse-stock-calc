@@ -23,4 +23,18 @@
     </style>
 
 
+    <style name="HeaderText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/header_text_size</item>
+    </style>
+
+    <style name="HeaderText.Buy" parent="HeaderText">
+        <item name="android:textColor">@color/colorBuy</item>
+    </style>
+
+    <style name="HeaderText.Sell" parent="HeaderText">
+        <item name="android:textColor">@color/colorSell</item>
+    </style>
+
+
 </resources>

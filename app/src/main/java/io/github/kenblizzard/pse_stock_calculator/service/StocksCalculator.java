@@ -60,7 +60,7 @@ public class StocksCalculator {
     }
 
 
-    public static double calculateTotalSharesPrice(Double price, Integer numberOfShares, Double totalFees) {
+    public static double calculateTotalSharesPrice(Double price, Long numberOfShares, Double totalFees) {
         return (price * numberOfShares) + totalFees;
     }
 
@@ -107,7 +107,7 @@ public class StocksCalculator {
         }
     }
 
-    public static int roundNumberOfSharesByBoardLot(double price, int numberOfShares) {
+    public static long roundNumberOfSharesByBoardLot(double price, long numberOfShares) {
         return numberOfShares - (numberOfShares % getBoardLot(price));
     }
 

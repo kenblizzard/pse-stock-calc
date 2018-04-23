@@ -59,12 +59,12 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
         var stock = Stock();
 
-        stock.numberOfShares = editNumberOfShares.text.toString().toIntOrNull();
-        stock.buyPrice = editBuyPrice.text.toString().toDoubleOrNull();
-        stock.sellPrice = editSellPrice.text.toString().toDoubleOrNull();
+        stock.numberOfShares = editNumberOfShares.text.toString().toLongOrNull()
+        stock.buyPrice = editBuyPrice.text.toString().toDoubleOrNull()
+        stock.sellPrice = editSellPrice.text.toString().toDoubleOrNull()
 
 
-        if (stock.numberOfShares == null || stock.numberOfShares == 0) {
+        if (stock.numberOfShares == null || stock.numberOfShares == 0L) {
             return
         }
 
@@ -98,7 +98,14 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
         totalProfitPercentage = (sellTotalAmount / (buyTotalAmount - buyTotalFee)) * 100 - 100
 
 
-        textSellTotalProft.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";
+        textSellTotalProfit.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";
+
+        if(totalProfitPercentage > 0) {
+            textSellTotalProfit.setTextColor( ContextCompat.getColor(this.context,R.color.colorBuy))
+        }
+        else {
+            textSellTotalProfit.setTextColor( ContextCompat.getColor(this.context,R.color.colorSell))
+        }
     }
 
 

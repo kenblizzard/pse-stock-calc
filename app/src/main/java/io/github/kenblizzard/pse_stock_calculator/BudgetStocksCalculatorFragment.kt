@@ -35,6 +35,7 @@ class BudgetStocksCalculatorFragment : Fragment() {
 
     fun Double.format(digits: Int) = java.lang.String.format("%,.${digits}f", this)
 
+
     lateinit var textWatcher: TextWatcher
 
 
@@ -42,7 +43,7 @@ class BudgetStocksCalculatorFragment : Fragment() {
 
         var stock: Stock = Stock()
 
-        var numSharesBasedOnBoardLot: Int = 0
+        var numSharesBasedOnBoardLot: Long = 0
         var buyingPower = editBudgetBuyingPower.text.toString().toDoubleOrNull()
 
 
@@ -53,7 +54,7 @@ class BudgetStocksCalculatorFragment : Fragment() {
             return;
         }
 
-        var possibleNumShares: Int = (buyingPower / stock.buyPrice).toInt();
+        var possibleNumShares: Long = (buyingPower / stock.buyPrice).toLong();
 
         var numBoardLot = StocksCalculator.getBoardLot(stock.buyPrice)
         numSharesBasedOnBoardLot = StocksCalculator.roundNumberOfSharesByBoardLot(stock.buyPrice, possibleNumShares)
@@ -80,8 +81,9 @@ class BudgetStocksCalculatorFragment : Fragment() {
 
         var avePricePerShare = totalAmount/numSharesBasedOnBoardLot
 
-        textBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot)
         textBoardLot.setText("" + numBoardLot)
+        textBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot.toDouble().format(0))
+        textBoardLot.setText("" + numBoardLot.toDouble().format(0))
         textBudgetAvePricePerShare.setText("" + avePricePerShare.format(4))
         textBudgetTotalFee.setText("" + transactionFeeComponents.totalFee.format(2))
         textBudgetTotalAmount.setText("" + totalAmount.format(2))
