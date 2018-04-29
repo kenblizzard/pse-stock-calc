@@ -14,6 +14,11 @@
                 android:id="@+id/nav_budget_stocks_calc"
                 android:icon="@drawable/ic_budget_stocks_calc_24dp"
                 android:title="Budget/Shares Shopping Calculator" />
+            <item
+                android:id="@+id/nav_cash_dividend_calc"
+                android:icon="@drawable/ic_cash_dividend"
+                android:title="Cash Dividend Payout"
+                />
         </menu>
     </item>
 

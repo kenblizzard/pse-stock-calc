@@ -1,32 +1,24 @@
 package io.github.kenblizzard.pse_stock_calculator
 
 
-import android.support.v4.app.Fragment
-import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SeekBar
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
-import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
-import io.github.kenblizzard.pse_stock_calculator.util.Constants
 import kotlinx.android.synthetic.main.activity_nav_main.*
 import kotlinx.android.synthetic.main.app_bar_nav_main.*
-import kotlinx.android.synthetic.main.content_nav_main.*
+import kotlinx.android.synthetic.main.fragment_budget_stocks_calculator.*
+import kotlinx.android.synthetic.main.fragment_stock_price_calculator.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,35 +26,47 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var mAdView: AdView
 
     var budgetStocksCalculatorFragment = BudgetStocksCalculatorFragment()
-    var stockPriceCalculatorFragment   = StockPriceCalculatorFragment()
+    var stockPriceCalculatorFragment = StockPriceCalculatorFragment()
+    var cashDividendPayoutFragment = CashDividendPayoutFragment()
 
 
-    fun displayFragmentView(itemId : Int) {
+    fun displayFragmentView(itemId: Int, stock: Stock? = null) {
 
-        var fragment : Fragment? = null;
+        var fragment: Fragment? = null;
 
 
-        var title : String = "";
+        var title: String = "";
 
-        var ft : FragmentTransaction = supportFragmentManager.beginTransaction()
+        var ft: FragmentTransaction = supportFragmentManager.beginTransaction()
 
-        when(itemId) {
+        when (itemId) {
             R.id.nav_stocks_calc -> {
 
-                title = "Stocks Price Calculator"
+                title = "Price & Profit"
+
+                if (stock != null) {
+                    stockPriceCalculatorFragment = StockPriceCalculatorFragment.newInstance(stock.numberOfShares, stock.buyPrice, stock.sellPrice)
+                }
                 ft.replace(R.id.content_frame, stockPriceCalculatorFragment)
+                ft.commit()
+
             }
 
             R.id.nav_budget_stocks_calc -> {
 
-                title = "Stocks Budget Calculator"
+                title = "Budget your Buying Power"
                 ft.replace(R.id.content_frame, budgetStocksCalculatorFragment)
+                ft.commit()
+            }
+
+            R.id.nav_cash_dividend_calc -> {
+                title = "Dividend Profits"
+                ft.replace(R.id.content_frame, cashDividendPayoutFragment)
+                ft.commit()
             }
         }
 
-        ft.commit()
-
-        if(supportActionBar != null) {
+        if (supportActionBar != null) {
             getSupportActionBar()?.title = title
         }
 
@@ -71,13 +75,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nav_main)
         setSupportActionBar(toolbar)
+
+        StocksCalculator.initFirebaseTransactionFeeValues();
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -112,9 +115,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.action_reset_fields -> {
+
+//
+//                if (editNumberOfShares != null) {
+//                    editNumberOfShares.setText("")
+//                }
+//
+//                if (editBuyPrice != null) {
+//                    editBuyPrice.setText("")
+//                }
+//
+//                if (editSellPrice != null) {
+//                    editSellPrice.setText("")
+//                }
+//
+//                if(editBudgetBuyingPower != null) {
+//                    editBudgetBuyingPower.setText("")
+//                }
+//
+//                if(editBudgetStockPrice != null) {
+//                    editBudgetStockPrice.setText("")
+//                }
+//
+//                if(editBudgetNumberOfShare != null) {
+//                    editBudgetNumberOfShare.setText("")
+//                }
+
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
+
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

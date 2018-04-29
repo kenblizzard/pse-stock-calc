@@ -24,24 +24,13 @@ import kotlinx.android.synthetic.main.fragment_stock_price_calculator.*
 import kotlinx.android.synthetic.main.fragment_stock_price_calculator.view.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_NUMBER_OF_SHARES = "ARG_NUMBER_OF_SHARES"
+private const val ARG_BUY_PRICE = "ARG_BUY_PRICE"
+private const val ARG_SELL_PRICE = "ARG_SELL_PRICE"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [StockPriceCalculatorFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [StockPriceCalculatorFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private var SAVE_KEY_NUM_SHARES = "SAVE_KEY_NUM_SHARES"
     private var SAVE_KEY_BUY_PRICE = "SAVE_KEY_BUY_PRICE"
     private var SAVE_KEY_SELL_PRICE = "SAVE_KEY_SELL_PRICE"
@@ -53,7 +42,7 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
     fun Double.format(digits: Int) = java.lang.String.format("%,.${digits}f", this)
 
-    fun calculateResultOnValueChanged() {
+    private fun calculateResultOnValueChanged() {
         var buyTransactionFee: TransactionFeeComponents
         var sellTransactionFee: TransactionFeeComponents
 
@@ -100,11 +89,10 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
         textSellTotalProfit.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";
 
-        if(totalProfitPercentage > 0) {
-            textSellTotalProfit.setTextColor( ContextCompat.getColor(this.context,R.color.colorBuy))
-        }
-        else {
-            textSellTotalProfit.setTextColor( ContextCompat.getColor(this.context,R.color.colorSell))
+        if (totalProfitPercentage > 0) {
+            textSellTotalProfit.setTextColor(ContextCompat.getColor(this.context, R.color.colorBuy))
+        } else {
+            textSellTotalProfit.setTextColor(ContextCompat.getColor(this.context, R.color.colorSell))
         }
     }
 
@@ -116,9 +104,11 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
             var buyPrice: Double
             if (editBuyPrice.text.toString().isNullOrBlank()) {
                 buyPrice = 0.00
+                return
             } else {
                 buyPrice = editBuyPrice.text.toString().toDouble()
             }
+
 
             var fluctuationDecimalPlace = 0
 
@@ -155,18 +145,22 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+            editNumberOfShares.setText("" + it?.getLong(ARG_NUMBER_OF_SHARES))
+            editBuyPrice.setText("" + it?.getDouble(ARG_BUY_PRICE))
+            editSellPrice.setText("" + it?.getDouble(ARG_SELL_PRICE))
         }
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
         var rootView: View = inflater.inflate(R.layout.fragment_stock_price_calculator, container, false)
 
         rootView.seekBarGainPercentage.setOnSeekBarChangeListener(this);
@@ -181,23 +175,17 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
-
         }
 
-
         rootView.editBuyPrice.addTextChangedListener(textWatcher)
-
         rootView.editSellPrice.addTextChangedListener(textWatcher)
-
         rootView.editNumberOfShares.addTextChangedListener(textWatcher)
 
 
         MobileAds.initialize(this.context, "ca-app-pub-1200631640695401~4382253594");
 
-
         val adRequest = AdRequest.Builder().build()
         rootView.adView.loadAd(adRequest)
-
 
         rootView.adView.setAdListener(object : AdListener() {
 
@@ -208,8 +196,8 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
             override fun onAdFailedToLoad(error: Int) {
                 rootView.adView.setVisibility(View.GONE)
             }
-
         })
+
         return rootView
     }
 
@@ -250,21 +238,14 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 //    }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StockPriceCalculatorFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(numberOfShares: Long, buyPrice: Double, sellPrice: Double) =
                 StockPriceCalculatorFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putLong(ARG_NUMBER_OF_SHARES, numberOfShares)
+                        putDouble(ARG_BUY_PRICE, buyPrice)
+                        putDouble(ARG_SELL_PRICE, sellPrice)
                     }
                 }
     }

@@ -1,16 +1,59 @@
 package io.github.kenblizzard.pse_stock_calculator.service;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import io.github.kenblizzard.pse_stock_calculator.model.Stock;
 import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents;
 import io.github.kenblizzard.pse_stock_calculator.util.Constants;
 
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_COMMISSION;
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_PSE_TRANS;
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_SALES_TAX;
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_SCCP;
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_TRANSACTION;
+import static io.github.kenblizzard.pse_stock_calculator.util.Constants.FIREBASE_FEE_VAT;
+
 public class StocksCalculator {
 
     public static TransactionFeeComponents TRANSACTION_FEE_BASE_VALUES = new TransactionFeeComponents(0.0025, 0.12,
             0.00005, 0.0001, 0.006);
+
+    public static void initFirebaseTransactionFeeValues() {
+
+        Log.d("tes test est", "teasda");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(FIREBASE_FEE_TRANSACTION);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                double commissionFee = (double) dataSnapshot.child(FIREBASE_FEE_COMMISSION).getValue();
+                double vatFee = (double) dataSnapshot.child(FIREBASE_FEE_VAT).getValue();
+                double pseTrans = (double) dataSnapshot.child(FIREBASE_FEE_PSE_TRANS).getValue();
+                double sccp = (double) dataSnapshot.child(FIREBASE_FEE_SCCP).getValue();
+                double salesTax = (double) dataSnapshot.child(FIREBASE_FEE_SALES_TAX).getValue();
+
+
+                Log.d("test", commissionFee + "");
+
+                TRANSACTION_FEE_BASE_VALUES = new TransactionFeeComponents(commissionFee, vatFee, pseTrans, sccp, salesTax);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     public static TransactionFeeComponents calculateTransactionFee(Stock stock,
                                                                    TransactionFeeComponents transactionFeeComponents,
@@ -114,9 +157,9 @@ public class StocksCalculator {
 
     public static int getBoardLot(double price) {
         if (price >= 0.0001 && price <= 0.0099) {
-            return 	1000000;
+            return 1000000;
         } else if (price >= 0.0100 && price <= 0.0490) {
-            return 	100000;
+            return 100000;
         } else if (price >= 0.0500 && price <= 0.2490) {
             return 10000;
         } else if (price >= 0.2500 && price <= 0.4950) {

@@ -4,145 +4,115 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="11"
+    android:weightSum="10"
+    android:background="@color/colorBackground"
     tools:context=".StockPriceCalculatorFragment">
 
 
     <LinearLayout
+        style="@style/LayoutMargin10dp"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="3"
-        android:weightSum="10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="9">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:weightSum="10">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/label_number_of_share" />
-
-                <EditText
-                    android:id="@+id/editNumberOfShares"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:hint="@string/value_int_zero"
-                    android:inputType="number" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:weightSum="10">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/label_buy_price" />
-
-                <EditText
-                    android:id="@+id/editBuyPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:hint="@string/value_double_zero"
-                    android:inputType="numberDecimal" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:weightSum="10">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/label_sell_price" />
-
-                <EditText
-                    android:id="@+id/editSellPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:hint="@string/value_double_zero"
-                    android:inputType="numberDecimal" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        style="@style/LayoutPadding"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@color/colorBackground"
+        android:layout_weight="5"
         android:orientation="vertical"
         android:weightSum="10">
 
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="10">
 
 
-            <SeekBar
-                android:id="@+id/seekBarGainPercentage"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:backgroundTint="@color/colorSell"
-                android:max="200"
-                android:progress="50"
-                android:progressBackgroundTint="@color/colorBuy"
-                android:scaleY="2"
-                android:thumbTint="@color/colorPrimary" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/label_number_of_share"
+                tools:ignore="NestedWeights" />
+
+            <EditText
+                android:id="@+id/editNumberOfShares"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:hint="@string/value_int_zero"
+                android:inputType="number"
+                android:textColor="@color/colorPrimary" />
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="10">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/label_buy_price" />
+
+            <EditText
+                android:id="@+id/editBuyPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:hint="@string/value_double_zero"
+                android:inputType="numberDecimal" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="10">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/label_sell_price" />
+
+            <EditText
+                android:id="@+id/editSellPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:hint="@string/value_double_zero"
+                android:inputType="numberDecimal" />
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:weightSum="5">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/seekbar_min"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorSell" />
 
             <TextView
                 android:layout_width="0dp"
+                android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:gravity="center"
                 android:text="@string/label_profit_bar" />
 
@@ -151,17 +121,37 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/seekbar_max" />
+                android:text="@string/seekbar_max"
+                android:textColor="@color/colorBuy" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
+
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seekBarGainPercentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorSell"
+                android:max="200"
+
+                android:progress="50"
+                android:progressBackgroundTint="@color/colorBuy"
+                android:thumbTint="@color/colorPrimary" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 
     <LinearLayout
+        style="@style/LayoutMargin10dp"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:orientation="vertical">
 
         <LinearLayout
@@ -174,7 +164,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:orientation="vertical"
                 android:weightSum="10">
 
@@ -183,7 +173,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
                     android:text="@string/label_buy" />
 
                 <LinearLayout
@@ -195,15 +184,16 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="4"
                         android:text="@string/label_total_fee"
                         android:textAlignment="viewStart" />
 
                     <TextView
                         android:id="@+id/textBuyTotalFee"
+                        style="@style/TextValueHighlight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="6"
                         android:text="@string/value_double_zero"
                         android:textAlignment="viewStart" />
 
@@ -218,15 +208,16 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="4"
                         android:text="@string/label_total_amount"
                         android:textAlignment="viewStart" />
 
                     <TextView
                         android:id="@+id/textBuyTotalAmount"
+                        style="@style/TextValueHighlight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="6"
                         android:text="@string/value_double_zero"
                         android:textAlignment="viewStart" />
 
@@ -246,7 +237,6 @@
                     style="@style/HeaderText.Sell"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:text="@string/label_sell" />
 
                 <LinearLayout
@@ -258,15 +248,16 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="4"
                         android:text="@string/label_total_fee"
                         android:textAlignment="viewStart" />
 
                     <TextView
                         android:id="@+id/textSellTotalFee"
+                        style="@style/TextValueHighlight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="6"
                         android:text="@string/value_double_zero"
                         android:textAlignment="viewStart" />
 
@@ -281,15 +272,16 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="4"
                         android:text="@string/label_total_amount"
                         android:textAlignment="viewStart" />
 
                     <TextView
                         android:id="@+id/textSellTotalAmount"
+                        style="@style/TextValueHighlight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="6"
                         android:text="@string/value_double_zero"
                         android:textAlignment="viewStart" />
 
@@ -306,19 +298,20 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="4"
                         android:text="@string/label_total_profit"
                         android:textAlignment="viewStart" />
 
                     <TextView
                         android:id="@+id/textSellTotalProfit"
+                        style="@style/TextValueHighlight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:text="@string/value_double_zero"
-                        android:textSize="16dp"
+                        android:layout_weight="6"
                         android:maxLines="4"
-                        android:textAlignment="viewStart" />
+                        android:text="@string/value_double_zero"
+                        android:textAlignment="viewStart"
+                        android:textSize="16dp" />
 
 
                 </LinearLayout>

@@ -7,6 +7,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
 import io.github.kenblizzard.pse_stock_calculator.util.Constants
@@ -68,7 +71,7 @@ class BudgetStocksCalculatorFragment : Fragment() {
         var totalAmount: Double = (stock.buyPrice * numSharesBasedOnBoardLot) + transactionFeeComponents.totalFee
 
 
-        if (totalAmount > buyingPower) {
+        while (totalAmount > buyingPower) {
             numSharesBasedOnBoardLot = numSharesBasedOnBoardLot - numBoardLot
             stock.numberOfShares = numSharesBasedOnBoardLot
 
@@ -79,9 +82,9 @@ class BudgetStocksCalculatorFragment : Fragment() {
             totalAmount = (stock.buyPrice * numSharesBasedOnBoardLot) + transactionFeeComponents.totalFee
         }
 
-        var avePricePerShare = totalAmount/numSharesBasedOnBoardLot
+        var avePricePerShare = totalAmount / numSharesBasedOnBoardLot
 
-        textBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot.toDouble().format(0))
+        editBudgetNumberOfShare.setText("" + numSharesBasedOnBoardLot.toDouble().format(0))
         textBoardLot.setText("" + numBoardLot.toDouble().format(0))
         textBudgetAvePricePerShare.setText("" + avePricePerShare.format(4))
         textBudgetTotalFee.setText("" + transactionFeeComponents.totalFee.format(2))
@@ -122,6 +125,41 @@ class BudgetStocksCalculatorFragment : Fragment() {
 
         rootView.editBudgetBuyingPower.addTextChangedListener(textWatcher)
         rootView.editBudgetStockPrice.addTextChangedListener(textWatcher)
+
+        rootView.btnCalculateProfit.setOnClickListener(View.OnClickListener { view ->
+            if (activity is MainActivity) {
+
+                var stock = Stock()
+
+
+                stock.numberOfShares = editBudgetNumberOfShare.text.toString().replace(",","").toLongOrNull()
+                stock.buyPrice = editBudgetStockPrice.text.toString().toDoubleOrNull()
+                stock.sellPrice = editBudgetStockPrice.text.toString().toDoubleOrNull()
+
+                (activity as MainActivity).displayFragmentView(R.id.nav_stocks_calc, stock)
+            }
+        })
+
+
+        MobileAds.initialize(this.context, "ca-app-pub-1200631640695401~4382253594");
+
+
+        val adRequest = AdRequest.Builder().build()
+
+        rootView.budgetAdView.loadAd(adRequest)
+
+
+        rootView.budgetAdView.setAdListener(object : AdListener() {
+
+            override fun onAdLoaded() {
+                rootView.budgetAdView.setVisibility(View.VISIBLE)
+            }
+
+            override fun onAdFailedToLoad(error: Int) {
+                rootView.budgetAdView.setVisibility(View.GONE)
+            }
+
+        })
 
         return rootView
     }

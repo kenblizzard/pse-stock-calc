@@ -3,18 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".BudgetStocksCalculatorFragment">
 
     <LinearLayout
+
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:weightSum="10">
 
         <LinearLayout
+            style="@style/LayoutMargin10dp"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:orientation="vertical"
             android:weightSum="9">
 
@@ -53,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="@string/label_budget_current_price" />
+                    android:text="@string/label_buy_price" />
 
                 <EditText
                     android:id="@+id/editBudgetStockPrice"
@@ -77,15 +80,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="@string/label_number_of_share" />
+                    android:text="@string/label_purchasable_shares" />
 
                 <EditText
-                    android:id="@+id/textBudgetNumberOfShare"
+                    android:id="@+id/editBudgetNumberOfShare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:enabled="false"
-                    android:text="@string/value_double_zero" />
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:focusable="false"
+                    android:text="@string/value_double_zero"
+                    android:textColor="@color/colorPrimary" />
 
 
             </LinearLayout>
@@ -93,13 +98,16 @@
         </LinearLayout>
 
         <LinearLayout
+            style="@style/LayoutMargin10dp"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="8"
+            android:layout_weight="6"
             android:orientation="vertical"
-            android:weightSum="12">
+            android:weightSum="13">
 
             <TextView
+                style="@style/HeaderText"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
@@ -118,6 +126,7 @@
                     android:text="@string/label_board_lot" />
 
                 <TextView
+                    style="@style/TextValueHighlight"
                     android:id="@+id/textBoardLot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,6 +134,7 @@
                     android:text="@string/value_int_zero" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -138,6 +148,7 @@
                     android:text="@string/label_budget_ave_price_per_share" />
 
                 <TextView
+                    style="@style/TextValueHighlight"
                     android:id="@+id/textBudgetAvePricePerShare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,6 +170,7 @@
                     android:text="@string/label_total_fee" />
 
                 <TextView
+                    style="@style/TextValueHighlight"
                     android:id="@+id/textBudgetTotalFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,6 +192,7 @@
                     android:text="@string/label_total_amount" />
 
                 <TextView
+                    style="@style/TextValueHighlight"
                     android:id="@+id/textBudgetTotalAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -201,16 +214,38 @@
                     android:text="@string/label_budget_remaining_buying_power" />
 
                 <TextView
+                    style="@style/TextValueHighlight"
                     android:id="@+id/textBudgetRemainingBuyingPower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:text="@string/value_double_zero" />
-
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnCalculateProfit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_stocks_price_calc_24dp"
+                android:drawableRight="@drawable/ic_trending_up_black_24dp"
+                android:padding="5dp"
+                android:text="@string/label_budget_calculate_profit" />
         </LinearLayout>
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/budgetAdView"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-1200631640695401/2512931869"></com.google.android.gms.ads.AdView>
 
 
     </LinearLayout>
+
 
 </FrameLayout>
