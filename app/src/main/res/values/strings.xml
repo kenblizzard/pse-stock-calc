@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Bullero</string>
-    <string name="action_settings">Settings</string>
 
 
     <string name="label_buy_price">Buy Price</string>
@@ -10,14 +9,13 @@
 
     <string name="label_buy">Buy</string>
     <string name="label_sell">Sell</string>
-    <string name="label_profit_bar">Adjust Target Price %</string>
+    <string name="label_profit_bar">Adjust Target Profit %</string>
 
-    <string name="label_total_fee">Total Fee</string>
+    <string name="label_total_fee">Total Charges</string>
     <string name="label_total_amount">Total Amount</string>
     <string name="label_total_profit">Total Profit</string>
 
-    <string name="label_budget_buying_power">Buying Power</string>
-    <string name="label_budget_current_price">Current Share Price</string>
+    <string name="label_budget_buying_power">Buying Power (PHP)</string>
     <string name="label_budget_remaining_buying_power">Remaining Buying Power</string>
     <string name="label_budget_ave_price_per_share">Average Price per Share</string>
     <string name="label_budget_calculate_profit">Calculate Target Profit</string>
@@ -32,11 +30,10 @@
 
     <string name="seekbar_min">-50%</string>
     <string name="seekbar_max">150%</string>
-    <string name="title_activity_nav_main">NavMainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Bullero</string>
-    <string name="nav_header_subtitle">Your trusted PSE Stocks Calculator</string>
+    <string name="nav_header_subtitle">Your PSE Stocks Calculator</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <!-- TODO: Remove or change this placeholder text -->
