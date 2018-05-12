@@ -126,9 +126,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_clear_fields" />
-                            <entry key="sourceFile" value="C:\Users\Ken" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_stocks_price_calc_24dp" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Ken\Downloads\report.svg" />
+                            <entry key="width" value="32" />
                           </map>
                         </option>
                       </PersistentState>

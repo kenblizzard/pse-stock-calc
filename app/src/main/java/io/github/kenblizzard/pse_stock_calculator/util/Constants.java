@@ -25,5 +25,6 @@ public final class Constants {
 
     public static String FRAGMENT_TAG_STOCKS_PRICE = "STOCKS_PRICE";
     public static String FRAGMENT_TAG_BUDGET_BP    = "BUDGET_BP";
+    public static String FRAGMENT_TAG_AVERAGE_UP_DOWN = "AVERAGE_UP_DOWN";
     public static String FRAGMENT_TAG_CASH_DIVIDENDS = "CASH_DIVIDENDS";
 }

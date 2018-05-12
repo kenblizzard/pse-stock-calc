@@ -3,7 +3,6 @@ package io.github.kenblizzard.pse_stock_calculator
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -16,7 +15,6 @@ import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.kobakei.ratethisapp.RateThisApp
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
-import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
 import io.github.kenblizzard.pse_stock_calculator.util.Constants.*
 import kotlinx.android.synthetic.main.activity_nav_main.*
 import kotlinx.android.synthetic.main.app_bar_nav_main.*
@@ -31,6 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var budgetStocksCalculatorFragment = BudgetStocksCalculatorFragment()
     var stockPriceCalculatorFragment = StockPriceCalculatorFragment()
+    var averagePriceCalculatorFragment = AveragePriceCalculatorFragment()
     var cashDividendPayoutFragment = CashDividendPayoutFragment()
 
     var mFirebaseAnalytics: FirebaseAnalytics? = null;
@@ -64,11 +63,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ft.commit()
             }
 
-//            R.id.nav_cash_dividend_calc -> {
-//                title = "Dividend Profits"
-//                ft.replace(R.id.content_frame, cashDividendPayoutFragment, FRAGMENT_TAG_CASH_DIVIDENDS)
-//                ft.commit()
-//            }
+            R.id.nav_average_up_down -> {
+                title = "Average Up or Down"
+                ft.replace(R.id.content_frame, averagePriceCalculatorFragment, FRAGMENT_TAG_AVERAGE_UP_DOWN)
+                ft.commit()
+            }
         }
 
         if (supportActionBar != null) {
@@ -86,7 +85,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nav_main)
         setSupportActionBar(toolbar)
-
 
 
         val toggle = ActionBarDrawerToggle(
@@ -121,13 +119,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        var stockPriceCalculatorFragment  = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_STOCKS_PRICE);
+        var stockPriceCalculatorFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_STOCKS_PRICE);
         var budgetStocksCalculatorFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_BUDGET_BP)
 
         when (item.itemId) {
             R.id.action_reset_fields -> {
 
-                if(stockPriceCalculatorFragment != null && stockPriceCalculatorFragment.isVisible) {
+                if (stockPriceCalculatorFragment != null && stockPriceCalculatorFragment.isVisible) {
 //
                     if (stockPriceCalculatorFragment.editNumberOfShares != null) {
                         stockPriceCalculatorFragment.editNumberOfShares.setText("")
@@ -142,7 +140,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
 
-                if(budgetStocksCalculatorFragment != null && budgetStocksCalculatorFragment.isVisible) {
+                if (budgetStocksCalculatorFragment != null && budgetStocksCalculatorFragment.isVisible) {
                     if (budgetStocksCalculatorFragment.editBudgetBuyingPower != null) {
                         budgetStocksCalculatorFragment.editBudgetBuyingPower.setText("")
                     }

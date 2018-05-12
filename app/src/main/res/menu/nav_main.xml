@@ -6,5 +6,6 @@
         android:orderInCategory="100"
         android:title=""
         android:icon="@drawable/ic_clear_fields"
+        android:iconTint="@color/colorPrimary"
         app:showAsAction="always" />
 </menu>
