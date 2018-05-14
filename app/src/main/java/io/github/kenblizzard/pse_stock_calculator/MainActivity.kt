@@ -18,6 +18,7 @@ import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import io.github.kenblizzard.pse_stock_calculator.util.Constants.*
 import kotlinx.android.synthetic.main.activity_nav_main.*
 import kotlinx.android.synthetic.main.app_bar_nav_main.*
+import kotlinx.android.synthetic.main.fragment_average_price_calculator.*
 import kotlinx.android.synthetic.main.fragment_budget_stocks_calculator.*
 import kotlinx.android.synthetic.main.fragment_stock_price_calculator.*
 
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var title: String = "";
         var ft: FragmentTransaction = supportFragmentManager.beginTransaction()
 
+
+
         when (itemId) {
             R.id.nav_stocks_calc -> {
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, FIREBASE_ANALYTICS_MENU_STOCKS_PRICE_CALC)
@@ -64,8 +67,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_average_up_down -> {
-                title = "Average Up or Down"
-                ft.replace(R.id.content_frame, averagePriceCalculatorFragment, FRAGMENT_TAG_AVERAGE_UP_DOWN)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, FIREBASE_ANALYTICS_MENU_MULTIPLE_BUYS)
+                title = "Multiple Buy Transaction"
+                ft.replace(R.id.content_frame, averagePriceCalculatorFragment, FRAGMENT_TAG_MULTIPLE_BUYS)
                 ft.commit()
             }
         }
@@ -117,10 +121,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         var stockPriceCalculatorFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_STOCKS_PRICE);
         var budgetStocksCalculatorFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_BUDGET_BP)
+        var averagePriceCalculatorFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_MULTIPLE_BUYS)
 
         when (item.itemId) {
             R.id.action_reset_fields -> {
@@ -154,6 +160,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
 
+                return true
+            }
+            R.id.action_compute_profit -> {
+                if (averagePriceCalculatorFragment != null && averagePriceCalculatorFragment.isVisible) {
+                    var stock = Stock()
+                    stock.numberOfShares = averagePriceCalculatorFragment.textTotalShares.text.toString().replace(",", "").toLongOrNull()
+                    stock.buyPrice = averagePriceCalculatorFragment.textTotalAverage.text.toString().replace(",", "").toDoubleOrNull()
+                    stock.sellPrice = stock.buyPrice
+
+                    this.displayFragmentView(R.id.nav_stocks_calc, stock)
+                }
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

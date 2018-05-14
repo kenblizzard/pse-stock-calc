@@ -20,11 +20,12 @@ public final class Constants {
     public static String FIREBASE_ANALYTICS_MENU_CLICK = "MENU_CLICK";
     public static String FIREBASE_ANALYTICS_MENU_STOCKS_PRICE_CALC = "MENU_STOCKS_PRICE_CALC";
     public static String FIREBASE_ANALYTICS_MENU_BUDGET_STOCS_CALC = "MENU_BUDGET_STOCS_CALC";
+    public static String FIREBASE_ANALYTICS_MENU_MULTIPLE_BUYS = "MENU_MULTIPLE BUYS";
 
 
 
     public static String FRAGMENT_TAG_STOCKS_PRICE = "STOCKS_PRICE";
     public static String FRAGMENT_TAG_BUDGET_BP    = "BUDGET_BP";
-    public static String FRAGMENT_TAG_AVERAGE_UP_DOWN = "AVERAGE_UP_DOWN";
+    public static String FRAGMENT_TAG_MULTIPLE_BUYS = "MULTIPLE_BUYS";
     public static String FRAGMENT_TAG_CASH_DIVIDENDS = "CASH_DIVIDENDS";
 }

@@ -14,6 +14,7 @@
     <string name="label_total_fee">Total Charges</string>
     <string name="label_total_amount">Total Amount</string>
     <string name="label_total_profit">Total Profit</string>
+    <string name="label_total_result">Total Average Details</string>
 
     <string name="label_budget_buying_power">Buying Power (PHP)</string>
     <string name="label_budget_remaining_buying_power">Remaining Buying Power</string>
@@ -23,6 +24,12 @@
     <string name="label_details">Purchase Details</string>
     <string name="label_board_lot">Board Lot</string>
 
+    <string name="label_button_compute">Compute</string>
+    <string name="label_button_remove">Remove</string>
+    <string name="label_button_new_buy">New Buy Transaction</string>
+
+    <string name="label_total_number_of_shares">Total No. of Shares</string>
+    <string name="label_total_average_price">Total Average Price</string>
 
     <string name="value_int_zero">0</string>
     <string name="value_double_zero">0.00</string>

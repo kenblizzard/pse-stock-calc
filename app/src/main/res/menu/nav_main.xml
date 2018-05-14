@@ -6,6 +6,16 @@
         android:orderInCategory="100"
         android:title=""
         android:icon="@drawable/ic_clear_fields"
+        android:tooltipText="Reset input fields"
+        android:iconTint="@color/colorPrimary"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_compute_profit"
+        android:orderInCategory="200"
+        android:title=""
+        android:tooltipText="Calculate target profit"
+
+        android:icon="@drawable/ic_trending_up_black_24dp"
         android:iconTint="@color/colorPrimary"
         app:showAsAction="always" />
 </menu>

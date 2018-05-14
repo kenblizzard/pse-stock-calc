@@ -30,6 +30,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:hint="@string/value_int_zero"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -60,6 +61,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
+        android:hint="@string/value_double_zero"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
@@ -68,31 +70,27 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCompute"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:text="Button"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/label_button_compute"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline5" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnRemove"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:text="Button"
+        android:layout_marginEnd="70dp"
+        android:backgroundTint="@color/colorSell"
+        android:text="@string/label_button_remove"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/btnCompute"
         app:layout_constraintTop_toBottomOf="@+id/guideline5"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -135,17 +133,15 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="0dp"
-        android:layout_height="39dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="@string/label_budget_ave_price_per_share"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline7"
-        tools:text="@string/label_budget_ave_price_per_share" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
 
     <TextView
         android:id="@+id/textView9"
@@ -154,25 +150,23 @@
         android:layout_marginBottom="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="@string/label_total_amount"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.05"
-        tools:text="@string/label_total_amount" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <TextView
         android:id="@+id/stockAveragePrice"
+        style="@style/TextValueHighlight"
         android:layout_width="0dp"
         android:layout_height="19dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="@string/value_double_zero"
         app:layout_constraintBottom_toTopOf="@+id/stockTotalAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline2"
@@ -180,13 +174,14 @@
 
     <TextView
         android:id="@+id/stockTotalAmount"
+        style="@style/TextValueHighlight"
         android:layout_width="0dp"
         android:layout_height="19dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="@string/value_double_zero"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

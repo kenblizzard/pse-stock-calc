@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -96,8 +97,15 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
         }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.findItem(R.id.action_compute_profit)?.setVisible(false);
+        menu?.findItem(R.id.action_reset_fields)?.setVisible(true);
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        super.onPrepareOptionsMenu(menu)
+    }
+
+
+
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         if (p0 != null) {
 
@@ -145,6 +153,7 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
