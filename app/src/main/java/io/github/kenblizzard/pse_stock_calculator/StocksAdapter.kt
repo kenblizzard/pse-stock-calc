@@ -2,6 +2,8 @@ package io.github.kenblizzard.pse_stock_calculator
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,12 +20,13 @@ class StocksAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
 
     class StockFragmentHolder : ViewHolder {
+
         fun Double.format(digits: Int) = java.lang.String.format("%,.${digits}f", this)
 
 
         lateinit var numberOfShares: EditText;
         lateinit var buyPrice: EditText;
-        lateinit var btnCompute: Button
+//        lateinit var btnCompute: Button
         lateinit var btnRemove: Button
         lateinit var stockAveragePrice: TextView
         lateinit var stockTotalAmount: TextView
@@ -32,10 +35,11 @@ class StocksAdapter() : RecyclerView.Adapter<ViewHolder>() {
         constructor(view: View) : super(view) {
             numberOfShares = view.findViewById(R.id.stockNumberOfShares)
             buyPrice = view.findViewById(R.id.stockBuyPrice)
-            btnCompute = view.findViewById(R.id.btnCompute)
+//            btnCompute = view.findViewById(R.id.btnCompute)
             btnRemove = view.findViewById(R.id.btnRemove)
             stockAveragePrice = view.findViewById(R.id.stockAveragePrice)
             stockTotalAmount = view.findViewById(R.id.stockTotalAmount)
+
         }
 
 
@@ -44,31 +48,69 @@ class StocksAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
             this.buyPrice.setText(if (stock!!.buyPrice <= 0.0) "" else stock!!.buyPrice.toString())
             this.numberOfShares?.setText(if (stock!!.numberOfShares <= 0.0) "" else stock!!.numberOfShares.toString())
-            this.stockAveragePrice.text = "0.0"
-            this.stockTotalAmount.text = "0.0"
+            this.stockAveragePrice.text = "0.00"
+            this.stockTotalAmount.text = "0.00"
 
-            this.btnCompute.setOnClickListener(View.OnClickListener {
+            var computeTextWatcher: TextWatcher;
 
-                var stock = Stock();
+            computeTextWatcher = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
 
-                stock.numberOfShares = this.numberOfShares.text.toString().toLongOrNull()
-                stock.buyPrice = this.buyPrice?.text.toString().toDoubleOrNull()
-                stock.sellPrice = 0.0
-
-
-                if (stock.numberOfShares != null || stock.numberOfShares != 0L) {
-
-                    var buyTotalAmount: Double = 0.0;
-                    buyTotalAmount = StocksCalculator.calculateTotalSharesPrice(stock, StocksCalculator.TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
-
-                    var averagePricePerShare = (buyTotalAmount / stock.numberOfShares)
-
-                    this.stockAveragePrice.text = averagePricePerShare.format(2);
-                    this.stockTotalAmount.text = "" + buyTotalAmount.format(2)
-
-                    onStocksAdapterListener.onStocksComputeButtonClicked(stock.numberOfShares, averagePricePerShare, buyTotalAmount, position)
                 }
-            })
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                    var stock = Stock();
+
+                    stock.numberOfShares = numberOfShares.text.toString().toLongOrNull()
+                    stock.buyPrice = buyPrice.text.toString().toDoubleOrNull()
+                    stock.sellPrice = 0.0
+
+
+                    if (stock.numberOfShares != null || stock.numberOfShares != 0L) {
+
+                        var buyTotalAmount: Double = 0.0;
+                        buyTotalAmount = StocksCalculator.calculateTotalSharesPrice(stock, StocksCalculator.TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+
+                        var averagePricePerShare = (buyTotalAmount / stock.numberOfShares)
+
+                        stockAveragePrice.text = averagePricePerShare.format(4);
+                        stockTotalAmount.text = "" + buyTotalAmount.format(2)
+
+                        onStocksAdapterListener.onStocksComputeChanged(stock.numberOfShares, averagePricePerShare, buyTotalAmount, position)
+                    }
+                }
+            }
+
+            this.buyPrice.addTextChangedListener(computeTextWatcher)
+            this.numberOfShares.addTextChangedListener(computeTextWatcher)
+
+//            this.btnCompute.setOnClickListener(View.OnClickListener {
+//
+//                var stock = Stock();
+//
+//                stock.numberOfShares = this.numberOfShares.text.toString().toLongOrNull()
+//                stock.buyPrice = this.buyPrice?.text.toString().toDoubleOrNull()
+//                stock.sellPrice = 0.0
+//
+//
+//                if (stock.numberOfShares != null || stock.numberOfShares != 0L) {
+//
+//                    var buyTotalAmount: Double = 0.0;
+//                    buyTotalAmount = StocksCalculator.calculateTotalSharesPrice(stock, StocksCalculator.TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_BUY)
+//
+//                    var averagePricePerShare = (buyTotalAmount / stock.numberOfShares)
+//
+//                    this.stockAveragePrice.text = averagePricePerShare.format(2);
+//                    this.stockTotalAmount.text = "" + buyTotalAmount.format(2)
+//
+//                    onStocksAdapterListener.onStocksComputeChanged(stock.numberOfShares, averagePricePerShare, buyTotalAmount, position)
+//                }
+//            })
 
             this.btnRemove.setOnClickListener(View.OnClickListener {
                 onStocksAdapterListener.onStocksRemoveButtonClicked(position)
@@ -144,8 +186,12 @@ class StocksAdapter() : RecyclerView.Adapter<ViewHolder>() {
 //        return position
 //    }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     override fun getItemId(position: Int): Long {
-        Log.d("POSITIOOOOOOOOOON " , ""+ position + " !!!" + super.getItemId(position) + " @@@ " + this.listStocks.get(position).id)
+        Log.d("POSITIOOOOOOOOOON ", "" + position + " !!!" + super.getItemId(position) + " @@@ " + this.listStocks.get(position).id)
         return this.listStocks.get(position).id
     }
 
@@ -170,7 +216,7 @@ class StocksAdapter() : RecyclerView.Adapter<ViewHolder>() {
     public interface OnStocksAdapterListener {
         public fun onStocksAddButtonClicked()
 
-        public fun onStocksComputeButtonClicked(numberOfShares: Long?, averagePricePerShare: Double?, averageTotalAmount: Double?, position: Int)
+        public fun onStocksComputeChanged(numberOfShares: Long?, averagePricePerShare: Double?, averageTotalAmount: Double?, position: Int)
 
         public fun onStocksRemoveButtonClicked(position: Int)
     }

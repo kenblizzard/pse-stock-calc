@@ -70,36 +70,27 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/btnCompute"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/label_button_compute"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline5" />
-
-    <Button
         android:id="@+id/btnRemove"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="70dp"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="5dp"
+
         android:backgroundTint="@color/colorSell"
-        android:text="@string/label_button_remove"
+        android:drawableLeft="@drawable/ic_remove_shopping_cart_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCompute"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="116dp" />
+        app:layout_constraintGuide_begin="140dp" />
 
 
     <android.support.constraint.Guideline
@@ -163,12 +154,14 @@
         style="@style/TextValueHighlight"
         android:layout_width="0dp"
         android:layout_height="19dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/value_double_zero"
         app:layout_constraintBottom_toTopOf="@+id/stockTotalAmount"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/guideline7" />
 
@@ -177,10 +170,10 @@
         style="@style/TextValueHighlight"
         android:layout_width="0dp"
         android:layout_height="19dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="@string/value_double_zero"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"

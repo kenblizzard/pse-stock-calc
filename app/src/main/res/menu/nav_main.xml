@@ -15,7 +15,12 @@
         android:title=""
         android:tooltipText="Calculate target profit"
 
-        android:icon="@drawable/ic_trending_up_black_24dp"
+        android:icon="@drawable/ic_stocks_price_calc_24dp"
         android:iconTint="@color/colorPrimary"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_about_dev"
+        android:icon="@drawable/ic_superman_flying"
+        android:title="About d' Developer"
+        app:showAsAction="never" />
 </menu>

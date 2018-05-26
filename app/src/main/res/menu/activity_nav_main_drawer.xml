@@ -13,11 +13,12 @@
             <item
                 android:id="@+id/nav_budget_stocks_calc"
                 android:icon="@drawable/ic_budget_stocks_calc_24dp"
-                android:title="Budget per Stocks " />
+                android:title="Budget your Buy Power" />
             <item
                 android:id="@+id/nav_average_up_down"
                 android:icon="@drawable/ic_average_up_down"
                 android:title="Multiple Buys" />
+
 
         </menu>
     </item>

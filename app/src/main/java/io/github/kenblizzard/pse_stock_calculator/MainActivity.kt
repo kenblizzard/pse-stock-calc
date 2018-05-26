@@ -1,16 +1,21 @@
 package io.github.kenblizzard.pse_stock_calculator
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.kobakei.ratethisapp.RateThisApp
@@ -28,12 +33,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var mAdView: AdView
 
+
     var budgetStocksCalculatorFragment = BudgetStocksCalculatorFragment()
     var stockPriceCalculatorFragment = StockPriceCalculatorFragment()
     var averagePriceCalculatorFragment = AveragePriceCalculatorFragment()
     var cashDividendPayoutFragment = CashDividendPayoutFragment()
 
     var mFirebaseAnalytics: FirebaseAnalytics? = null;
+    var mInterstitialAd: InterstitialAd? = null;
 
 
     fun displayFragmentView(itemId: Int, stock: Stock? = null) {
@@ -68,10 +75,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_average_up_down -> {
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, FIREBASE_ANALYTICS_MENU_MULTIPLE_BUYS)
-                title = "Multiple Buy Transaction"
+                title = "Multiple Buys"
                 ft.replace(R.id.content_frame, averagePriceCalculatorFragment, FRAGMENT_TAG_MULTIPLE_BUYS)
                 ft.commit()
             }
+
         }
 
         if (supportActionBar != null) {
@@ -100,7 +108,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         MobileAds.initialize(this, "ca-app-pub-1200631640695401~4382253594");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd!!.adUnitId = "ca-app-pub-1200631640695401/4589000058"
+        mInterstitialAd!!.loadAd(AdRequest.Builder().build())
 
         RateThisApp.onCreate(this);
         RateThisApp.showRateDialogIfNeeded(this);
@@ -164,6 +174,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_compute_profit -> {
                 if (averagePriceCalculatorFragment != null && averagePriceCalculatorFragment.isVisible) {
+
+                    if (mInterstitialAd!!.isLoaded) {
+                        mInterstitialAd!!.show()
+                    }
+
                     var stock = Stock()
                     stock.numberOfShares = averagePriceCalculatorFragment.textTotalShares.text.toString().replace(",", "").toLongOrNull()
                     stock.buyPrice = averagePriceCalculatorFragment.textTotalAverage.text.toString().replace(",", "").toDoubleOrNull()
@@ -171,6 +186,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     this.displayFragmentView(R.id.nav_stocks_calc, stock)
                 }
+                return true
+            }
+            R.id.action_about_dev -> {
+                val alertDialog = AlertDialog.Builder(this@MainActivity).create()
+                alertDialog.setTitle("Hello! ☺")
+                alertDialog.setMessage("For concerns, suggestion and bug reports, you can contact me at kenneth.bolico@gmail.com" +
+                        "\n\n" +
+                        "Wishing you well in your Stocks Trading journey!")
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Email ME") {
+                    dialog, which ->
+
+                    var  emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto","kenneth.bolico@gmail.com", null));
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bullero - PSE Stocks Calculator");
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello Kenneth");
+                    startActivity(Intent.createChooser(emailIntent, "Send email..."))
+                }
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE") {
+                    dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

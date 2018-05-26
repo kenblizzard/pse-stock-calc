@@ -8,10 +8,11 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import io.github.kenblizzard.pse_stock_calculator.model.Stock
 import kotlinx.android.synthetic.main.fragment_average_price_calculator.*
 import kotlinx.android.synthetic.main.fragment_average_price_calculator.view.*
@@ -25,16 +26,14 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
     lateinit var listNumberOfShares: ArrayList<Long>
     lateinit var listBuyAmount: ArrayList<Double>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true);
 
-
         listStocks = ArrayList()
         listNumberOfShares = ArrayList()
         listBuyAmount = ArrayList()
-
-
     }
 
     private fun computeTotalResult() {
@@ -42,7 +41,7 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
         var totalBuyAmount: Double = 0.0
         var totalAveragePrice: Double = 0.0
 
-        if (listNumberOfShares.size > 1 && listBuyAmount.size > 1) {
+        if (listNumberOfShares.size > 0 && listBuyAmount.size > 0) {
 
             for (numShares in this.listNumberOfShares) {
                 totalShares += numShares
@@ -56,13 +55,9 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
         }
 
 
-
-
         textTotalBuyAmount.text = totalBuyAmount.format(4)
         textTotalShares.text = totalShares.toString().format(0)
         textTotalAverage.text = totalAveragePrice.format(4)
-
-
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -87,15 +82,6 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
         listNumberOfShares.add(0)
         listBuyAmount.add(0.0)
 
-//        var tempStockForNewButton: Stock = Stock()
-//        tempStockForNewButton.buyPrice = 0.0
-//        tempStockForNewButton.numberOfShares = 0
-//        tempStockForNewButton.sellPrice = 0.0
-//
-//        listStocks.add(tempStockForNewButton)
-//        listNumberOfShares.add(0)
-//        listBuyAmount.add(0.0)
-
         stocksAdapter = StocksAdapter(listStocks, this)
 
 
@@ -119,11 +105,35 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
 
         stocksAdapter.notifyDataSetChanged()
 
+
+        MobileAds.initialize(this.context, "ca-app-pub-1200631640695401~4382253594");
+
+        val adRequest = AdRequest.Builder().build()
+
+        view.multipleBuyAdView2.loadAd(adRequest)
+        view.multipleBuyAdView2.setAdListener(object : AdListener() {
+
+            override fun onAdLoaded() {
+                view.multipleBuyAdView2.setVisibility(View.VISIBLE)
+            }
+
+            override fun onAdFailedToLoad(error: Int) {
+                view.multipleBuyAdView2.setVisibility(View.GONE)
+            }
+
+        })
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return view
     }
 
 
     override fun onStocksAddButtonClicked() {
+
+        if (this.listStocks.size > 4) {
+            Toast.makeText(activity.applicationContext, "Howdy, you have reached your max limit of 5 buy transactions. Contact the developer to add more!", Toast.LENGTH_LONG).show()
+            return
+        }
         var newStock: Stock = Stock()
         newStock.buyPrice = 0.0
         newStock.numberOfShares = 0
@@ -133,24 +143,27 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
         this.listNumberOfShares.add(0)
         this.listBuyAmount.add(0.0)
 
-        Log.d("test size", "" + this.listStocks.size)
+
         stocksAdapter.notifyItemInserted(this.listStocks.size - 1)
     }
 
-    override fun onStocksComputeButtonClicked(numberOfShares: Long?, averagePricePerShare: Double?, averageTotalAmount: Double?, position: Int) {
+    override fun onStocksComputeChanged(numberOfShares: Long?, averagePricePerShare: Double?, averageTotalAmount: Double?, position: Int) {
+
+        if (position > this.listNumberOfShares.size - 1) {
+            return
+        }
         this.listNumberOfShares.set(position, numberOfShares!!)
         this.listBuyAmount.set(position, averageTotalAmount!!)
 
-        Log.d("test", "" + position)
+
         computeTotalResult()
     }
 
     override fun onStocksRemoveButtonClicked(position: Int) {
 
-
-        Log.d("test remove", "" + position)
-
         try {
+
+            recyclerView.recycledViewPool.clear()
 
             var tempPosition: Int = 0
 
@@ -167,8 +180,6 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
         } catch (e: ExceptionInInitializerError) {
             Log.d("error ", e.message)
         }
-
-
 
         computeTotalResult()
     }

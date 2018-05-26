@@ -9,7 +9,7 @@
 
     <string name="label_buy">Buy</string>
     <string name="label_sell">Sell</string>
-    <string name="label_profit_bar">Adjust Target Profit %</string>
+    <string name="label_profit_bar">Adjust Target Profit</string>
 
     <string name="label_total_fee">Total Charges</string>
     <string name="label_total_amount">Total Amount</string>
@@ -30,6 +30,9 @@
 
     <string name="label_total_number_of_shares">Total No. of Shares</string>
     <string name="label_total_average_price">Total Average Price</string>
+
+    <string name="label_contact">Contact</string>
+    <string name="label_close">Close</string>
 
     <string name="value_int_zero">0</string>
     <string name="value_double_zero">0.00</string>

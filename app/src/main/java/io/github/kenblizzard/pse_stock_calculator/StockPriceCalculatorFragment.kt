@@ -8,10 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -207,6 +204,7 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
             }
         })
 
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return rootView
     }
 
