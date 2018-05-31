@@ -18,6 +18,8 @@ import io.github.kenblizzard.pse_stock_calculator.model.TransactionFeeComponents
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator
 import io.github.kenblizzard.pse_stock_calculator.service.StocksCalculator.TRANSACTION_FEE_BASE_VALUES
 import io.github.kenblizzard.pse_stock_calculator.util.Constants
+import kotlinx.android.synthetic.main.fragment_average_price_calculator.*
+import kotlinx.android.synthetic.main.fragment_budget_stocks_calculator.*
 import kotlinx.android.synthetic.main.fragment_stock_price_calculator.*
 import kotlinx.android.synthetic.main.fragment_stock_price_calculator.view.*
 
@@ -83,6 +85,24 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
         totalProfit = sellTotalAmount - (buyTotalAmount - buyTotalFee)
         totalProfitPercentage = (sellTotalAmount / (buyTotalAmount - buyTotalFee)) * 100 - 100
+
+        var avePricePerShare = buyTotalAmount / stock.numberOfShares
+
+        var breakEvenPrice = stock.buyPrice
+        var breakEvenTotalAmount = 0.0
+
+        while(breakEvenPrice > 0 && breakEvenTotalAmount < buyTotalAmount) {
+            breakEvenPrice = breakEvenPrice + StocksCalculator.getTickSize(avePricePerShare)
+            var breakEvenStock = Stock()
+            breakEvenStock.buyPrice = avePricePerShare
+            breakEvenStock.sellPrice = breakEvenPrice
+            breakEvenStock.numberOfShares = stock.numberOfShares
+
+            var breakEvenTransactionFeeComponents = StocksCalculator.calculateTransactionFee(breakEvenStock, StocksCalculator.TRANSACTION_FEE_BASE_VALUES, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+            breakEvenTotalAmount = StocksCalculator.calculateTotalSharesPrice(breakEvenStock, breakEvenTransactionFeeComponents, Constants.TRANSACTION_TYPE.TRANSACTION_TYPE_SELL)
+        }
+
+        textBreakEvenPrice.setText("" + breakEvenPrice.toDouble().format(4))
 
 
         textSellTotalProfit.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";

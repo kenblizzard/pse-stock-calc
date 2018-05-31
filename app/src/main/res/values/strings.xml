@@ -5,7 +5,8 @@
     <string name="label_buy_price">Buy Price</string>
     <string name="label_sell_price">Sell Price</string>
     <string name="label_number_of_share">No. of Shares</string>
-    <string name="label_purchasable_shares">No. of Purchasable Shares</string>
+    <string name="label_purchasable_shares"># of Purchasable Shares</string>
+    <string name="label_break_even_price">Breakeven Price</string>
 
     <string name="label_buy">Buy</string>
     <string name="label_sell">Sell</string>

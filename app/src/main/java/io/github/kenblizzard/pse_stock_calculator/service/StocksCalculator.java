@@ -116,7 +116,7 @@ public class StocksCalculator {
         doublePrice.setScale(fluctuationDecimalPlace, Ro)
     }*/
 
-    private static double getTickSize(double price) {
+    public static double getTickSize(double price) {
         if (price >= 0.0001 && price <= 0.0099) {
             return 0.0001;
         } else if (price >= 0.0100 && price <= 0.0490) {
