@@ -14,8 +14,10 @@
 
     <string name="label_total_fee">Total Charges</string>
     <string name="label_total_amount">Total Amount</string>
-    <string name="label_total_profit">Total Profit</string>
+    <string name="label_total_profit">Gain / Loss</string>
     <string name="label_total_result">Total Average Details</string>
+    <string name="label_brokers_computation">Based on your Portfolio</string>
+    <string name="label_total_profit_overall">Overall profit</string>
 
     <string name="label_budget_buying_power">Buying Power (PHP)</string>
     <string name="label_budget_remaining_buying_power">Remaining Buying Power</string>

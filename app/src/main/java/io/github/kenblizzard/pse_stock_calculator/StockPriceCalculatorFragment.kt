@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.SeekBar
+import android.widget.Toast
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -107,10 +108,16 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
 
         textSellTotalProfit.text = "" + totalProfit.format(2) + " (" + totalProfitPercentage.format(2) + "%)";
 
+        var totalProfitOverall = sellTotalAmount - buyTotalAmount
+        var totalProfitOverallPercentage = (sellTotalAmount / (buyTotalAmount )) * 100 - 100
+        textTotalProfitOverall.text= "" + totalProfitOverall.format(2) + " (" + totalProfitOverallPercentage.format(2) + "%)";
+
         if (totalProfitPercentage > 0) {
             textSellTotalProfit.setTextColor(ContextCompat.getColor(this.context, R.color.colorBuy))
+            textTotalProfitOverall.setTextColor(ContextCompat.getColor(this.context, R.color.colorBuy))
         } else {
             textSellTotalProfit.setTextColor(ContextCompat.getColor(this.context, R.color.colorSell))
+            textTotalProfitOverall.setTextColor(ContextCompat.getColor(this.context, R.color.colorSell))
         }
     }
 
@@ -206,6 +213,16 @@ class StockPriceCalculatorFragment : Fragment(), SeekBar.OnSeekBarChangeListener
         rootView.editBuyPrice.addTextChangedListener(textWatcher)
         rootView.editSellPrice.addTextChangedListener(textWatcher)
         rootView.editNumberOfShares.addTextChangedListener(textWatcher)
+
+        rootView.btnHelpBrokerTotalProfit.setOnClickListener {
+            Toast.makeText(context,"The value of GAIN/LOSS indicated in your Portfolio. \n\n" +
+                    "E.g.: The value indicated here is equal to the GAIN/LOSS in your COL Financials portfolio. \n\n" +
+                    "NOTE: The transaction fee when you BUY is not included in the computation of GAIN/LOSS in your portfolio.", Toast.LENGTH_LONG).show()
+        }
+
+        rootView.btnHelpTotalProfitOverall.setOnClickListener {
+            Toast.makeText(context,"The total exact GAIN/LOSS including the transaction fee when you BUY.", Toast.LENGTH_LONG).show()
+        }
 
 
         MobileAds.initialize(this.context, "ca-app-pub-1200631640695401~4382253594");

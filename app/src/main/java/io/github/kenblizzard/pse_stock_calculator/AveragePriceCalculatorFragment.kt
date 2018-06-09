@@ -56,7 +56,7 @@ class AveragePriceCalculatorFragment : Fragment(), StocksAdapter.OnStocksAdapter
 
 
         textTotalBuyAmount.text = totalBuyAmount.format(4)
-        textTotalShares.text = totalShares.toString().format(0)
+        textTotalShares.text = totalShares.toDouble().format(0)
         textTotalAverage.text = totalAveragePrice.format(4)
     }
 
